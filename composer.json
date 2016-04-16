@@ -1,0 +1,19 @@
+{
+    "name" : "troytft/data-mapper-bundle",
+    "description": "Allow map data to models",
+    "version" : "0.0.x-dev",
+    "type" : "symfony-bundle",
+    "license" : "MIT",
+    "require" : {
+        "php": ">=5.5",
+        "symfony/symfony": ">=2.7"
+    },
+    "autoload" : {
+        "psr-4" : { "Troytft\\RequestMapperBundle\\" : "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
