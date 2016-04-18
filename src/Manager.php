@@ -90,7 +90,7 @@ class Manager
 
         return $this->model;
     }
-
+    
     private function analyzeModel()
     {
         $this->reflectedClass = new \ReflectionClass($this->model);
