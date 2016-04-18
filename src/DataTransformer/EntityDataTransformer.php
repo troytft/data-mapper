@@ -2,9 +2,9 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
-use Common\Exception\FormValidationFieldException;
-use Common\Helper\RequestMapper\Exception\BaseException;
 use Doctrine\ORM\EntityManager;
+use Troytft\DataMapperBundle\Exception\BaseException;
+use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 
 class EntityDataTransformer extends BaseDataTransformer implements DataTransformerInterface
 {
@@ -35,11 +35,11 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
         }
 
         if (!is_string($value) && !is_numeric($value)) {
-            throw new FormValidationFieldException($this->getPropertyName(), 'Значение должно быть строкой или числом');
+            throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть строкой или числом');
         }
 
         if (!$entity = $this->em->getRepository($this->entityName)->findOneBy([$this->fieldName => $value])) {
-            throw new FormValidationFieldException($this->getPropertyName(), 'Сущность с таким значением не найдена');
+            throw new ValidationFieldException($this->getPropertyName(), 'Сущность с таким значением не найдена');
         }
 
         return $entity;
