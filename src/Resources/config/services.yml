@@ -1,0 +1,58 @@
+services:
+    data_mapper.manager:
+        class: Troytft\DataMapperBundle\Manager
+        arguments: [@annotation_reader, @validator]
+
+    data_mapper.data_transformer.plain:
+        class: Troytft\DataMapperBundle\DataTransformer\PlainDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: plain }
+
+    data_mapper.data_transformer.integer:
+        class: Troytft\DataMapperBundle\DataTransformer\IntegerDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: integer }
+
+    data_mapper.data_transformer.boolean:
+        class: Troytft\DataMapperBundle\DataTransformer\BooleanDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: boolean }
+
+    data_mapper.data_transformer.string:
+        class: Troytft\DataMapperBundle\DataTransformer\StringDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: string }
+
+    data_mapper.data_transformer.float:
+        class: Troytft\DataMapperBundle\DataTransformer\FloatDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: float }
+
+    data_mapper.data_transformer.timestamp:
+        class: Troytft\DataMapperBundle\DataTransformer\TimestampDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: timestamp }
+
+    data_mapper.data_transformer.entity:
+        class: Troytft\DataMapperBundle\DataTransformer\EntityDataTransformer
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: data_mapper.transformer, alias: entity }
+
+    data_mapper.data_transformer.array:
+        class: Troytft\DataMapperBundle\DataTransformer\ArrayDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: array }
+
+    data_mapper.data_transformer.array_of_entity:
+        class: Troytft\DataMapperBundle\DataTransformer\ArrayOfEntityDataTransformer
+        arguments: [@doctrine.orm.entity_manager]
+        tags:
+            - { name: data_mapper.transformer, alias: array_of_entity }
+
+    data_mapper.data_transformer.array_of_integer:
+        class: Troytft\DataMapperBundle\DataTransformer\ArrayOfIntegerDataTransformer
+        tags:
+            - { name: data_mapper.transformer, alias: array_of_integer }
+
+

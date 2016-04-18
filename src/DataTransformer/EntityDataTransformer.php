@@ -1,6 +1,6 @@
 <?php
 
-namespace Troytft\RequestMapperBundle\DataTransformer;
+namespace Troytft\DataMapperBundle\DataTransformer;
 
 use Common\Exception\FormValidationFieldException;
 use Common\Helper\RequestMapper\Exception\BaseException;

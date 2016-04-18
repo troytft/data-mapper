@@ -1,6 +1,6 @@
 <?php
 
-namespace Troytft\RequestMapperBundle\Exception;
+namespace Troytft\DataMapperBundle\Exception;
 
 class BaseException extends \Exception
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Troytft\RequestMapperBundle\Annotation;
+namespace Troytft\DataMapperBundle\Annotation;
 
 /**
  * @Annotation
  */
-class RequestMapper
+class DataMapper
 {
     protected $type;
     protected $name;

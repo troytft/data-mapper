@@ -1,6 +1,6 @@
 <?php
 
-namespace Troytft\RequestMapperBundle\DataTransformer;
+namespace Troytft\DataMapperBundle\DataTransformer;
 
 interface DataTransformerInterface
 {

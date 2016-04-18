@@ -1,6 +1,6 @@
 <?php
 
-namespace Troytft\RequestMapperBundle\DataTransformer;
+namespace Troytft\DataMapperBundle\DataTransformer;
 
 class PlainDataTransformer extends BaseDataTransformer implements DataTransformerInterface
 {

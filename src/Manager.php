@@ -1,27 +1,45 @@
 <?php
 
-namespace Troytft\RequestMapperBundle;
+namespace Troytft\DataMapperBundle;
 
-use Common\Exception\FormValidationException;
-use Troytft\RequestMapperBundle\Annotation\RequestMapper as RequestMapperAnnotation;
-use Troytft\RequestMapperBundle\DataTransformer\BaseDataTransformer;
-use Troytft\RequestMapperBundle\Exception\BaseException;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Annotations\Reader as AnnotationReaderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Troytft\DataMapperBundle\Annotation\DataMapper as DataMapperAnnotation;
+use Troytft\DataMapperBundle\DataTransformer\BaseDataTransformer;
+use Troytft\DataMapperBundle\DataTransformer\DataTransformerInterface;
+use Troytft\DataMapperBundle\Exception;
 
 class Manager
 {
     /**
-     * @var AnnotationReader
+     * @var AnnotationReaderInterface
      */
     private $annotationReader;
 
     /**
-     * @var Request
+     * @var array
      */
-    private $request;
+    private $dataTransformers = [];
+
+    /**
+     * @var bool
+     */
+    private $isClearMissing = true;
+
+    /**
+     * @var bool
+     */
+    private $isValidate = true;
+
+    /**
+     * @var array
+     */
+    private $groups = ['Default'];
+
+    /**
+     * @var array
+     */
+    private $validationGroups = ['Default'];
 
     /**
      * @var ValidatorInterface
@@ -29,115 +47,226 @@ class Manager
     private $validator;
 
     /**
-     * @var ContainerInterface
+     * @var object
      */
-    private $container;
-
     private $model;
-    private $activeProperties = [];
-    /** @var \ReflectionClass */
-    private $reflectedClass;
-    private $propertyAssociations = [];
-    private $requestData;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var array
+     */
+    private $data = [];
+
+    /**
+     * @var array
+     */
+    private $dataKeyToAnnotation = [];
+
+    /**
+     * @var array
+     */
+    private $propertyNameToDataKey = [];
+
+    /**
+     * @var \ReflectionClass
+     */
+    private $reflectedClass;
+
+    public function __construct(AnnotationReaderInterface $annotationReader, ValidatorInterface $validator)
     {
-        $this->container = $container;
-        $this->annotationReader = $container->get('annotation_reader');
-        $this->request = $container->get('request');
-        $this->validator = $container->get('validator');
-        var_dump(get_class($this->validator));die();
+        $this->annotationReader = $annotationReader;
+        $this->validator = $validator;
+    }
+
+    public function handle($model, $data = [])
+    {
+        $this->model = $model;
+        $this->data = $data;
+
+        $this->analyzeModel();
+        $this->settingValues();
+        $this->clearMissing();
+        $this->validate();
+        $this->shutdown();
+
+        return $this->model;
+    }
+
+    private function analyzeModel()
+    {
+        $this->reflectedClass = new \ReflectionClass($this->model);
+
+        foreach ($this->reflectedClass->getProperties() as $property) {
+            /** @var DataMapperAnnotation $annotation */
+            $annotation = $this->annotationReader->getPropertyAnnotation($property, new DataMapperAnnotation());
+            if ($annotation && array_intersect($this->groups, $annotation->getGroups())) {
+                $annotation->setName($annotation->getName() ?: $property->getName());
+                
+                $this->propertyNameToDataKey[$property->getName()] = $annotation->getName();
+                $this->dataKeyToAnnotation[$annotation->getName()] = $annotation;
+            }
+        }
+    }
+
+    private function settingValues()
+    {
+        foreach ($this->data as $propertyName => $value) {
+            if (!array_key_exists($propertyName, $this->dataKeyToAnnotation)) {
+                throw new Exception\UnknownPropertyException($propertyName);
+            }
+
+            $this->setPropertyValue($this->dataKeyToAnnotation[$propertyName], $value);
+        }
+    }
+
+    private function setPropertyValue(DataMapperAnnotation $propertyAnnotation, $value)
+    {
+        $propertyName = array_search($propertyAnnotation->getName(), $this->propertyNameToDataKey);
+        $methodName = 'set' . ucwords($propertyName);
+
+        if (!$this->reflectedClass->hasMethod($methodName)) {
+            throw new Exception\UnknownPropertySetterException($propertyName);
+        }
+
+        $dataTransformer = $this->getDataTransformer($propertyAnnotation->getType());
+        $dataTransformer->setOptions(array_merge($propertyAnnotation->getOptions(), [
+            'model' => $this->model,
+            'propertyName' => $propertyAnnotation->getName()
+        ]));
+        $value = $dataTransformer->transform($value);
+
+        $this->reflectedClass->getMethod($methodName)->invoke($this->model, $value);
+    }
+
+    private function clearMissing()
+    {
+        if (!$this->isClearMissing) {
+            return;
+        }
+
+        $dataKeys = array_keys($this->data);
+        foreach ($this->dataKeyToAnnotation as $k => $v) {
+            if (!in_array($k, $dataKeys)) {
+                $this->setPropertyValue($this->dataKeyToAnnotation[$k], null);
+            }
+        }
+    }
+
+    private function validate()
+    {
+        if (!$this->isValidate) {
+            return;
+        }
+
+        $errors = $this->validator->validate($this->model, $this->getValidationGroups());
+        if (count($errors)) {
+            $errorsAsArray = [];
+            foreach ($errors as $error) {
+                $key = isset($this->propertyNameToDataKey[$error->getPropertyPath()]) ? $this->propertyNameToDataKey[$error->getPropertyPath()] : 'all';
+                $errorsAsArray[$key][] = $error->getMessage();
+            }
+
+            throw new Exception\ValidationException($errorsAsArray);
+        }
+    }
+
+    private function shutdown()
+    {
+        $this->isClearMissing = true;
+        $this->data = [];
+        $this->groups = ['Default'];
+        $this->validationGroups = ['Default'];
+        $this->dataKeyToAnnotation = [];
+        $this->propertyNameToDataKey = [];
+    }
+
+    public function addDataTransformer(DataTransformerInterface $dataTransformer, $alias)
+    {
+        $this->dataTransformers[$alias] = $dataTransformer;
+    }
+
+    /**
+     * @param $alias
+     * @return DataTransformerInterface
+     * @throws Exception\UnknownDataTransformerException
+     */
+    private function getDataTransformer($alias)
+    {
+        if (!array_key_exists($alias, $this->dataTransformers)) {
+            throw new Exception\UnknownDataTransformerException($alias);
+        }
+
+        return $this->dataTransformers[$alias];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsClearMissing()
+    {
+        return $this->isClearMissing;
+    }
+
+    /**
+     * @param boolean $value
+     */
+    public function setIsClearMissing($value)
+    {
+        $this->isClearMissing = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsValidate()
+    {
+        return $this->isValidate;
+    }
+
+    /**
+     * @param boolean $value
+     */
+    public function setIsValidate($value)
+    {
+        $this->isValidate = $value;
+
+        return $this;
     }
 
     /**
      * @return array
      */
-    public function getRequestData()
+    public function getGroups()
     {
-        if ($this->requestData === null) {
-            return $this->request->getRealMethod() == 'GET' ? $this->request->query->all() : $this->request->request->all();
-        }
-
-        return $this->requestData;
+        return $this->groups;
     }
 
     /**
      * @param array $value
      */
-    public function setRequestData($value)
+    public function setGroups($value)
     {
-        $this->requestData = (array) $value;
+        $this->groups = (array) $value;
 
         return $this;
     }
 
-    public function handle($model, $clearMissing = true, $groups = 'Default', $validationGroups = ['Default'])
+    /**
+     * @return array
+     */
+    public function getValidationGroups()
     {
-        $this->model = $model;
-        $this->reflectedClass = new \ReflectionClass($this->model);
-        $this->activeProperties = [];
-        $this->propertyAssociations = [];
-        if (is_string($groups)) {
-            $groups = [$groups];
-        }
-
-        foreach ($this->reflectedClass->getProperties() as $property) {
-            /** @var RequestMapperAnnotation $annotation */
-            $annotation = $this->annotationReader->getPropertyAnnotation($property, new RequestMapperAnnotation());
-            if ($annotation && array_intersect($groups, $annotation->getGroups())) {
-                $annotation->setName($annotation->getName() ?: $property->getName());
-                $this->propertyAssociations[$property->getName()] = $annotation->getName();
-                $this->activeProperties[$annotation->getName()] = $annotation;
-            }
-        }
-
-        $submittedFields = [];
-        foreach ($this->getRequestData() as $propertyName => $value) {
-            $submittedFields[] = $propertyName;
-            if (!array_key_exists($propertyName, $this->activeProperties)) {
-                throw new FormValidationException(['all' => ["Неизвестное поле \"{$propertyName}\""]]);
-            }
-
-            $this->setPropertyValue($this->activeProperties[$propertyName], $value);
-        }
-
-        if ($clearMissing) {
-            foreach ($this->activeProperties as $k => $v) {
-                if (!in_array($k, $submittedFields)) {
-                    $this->setPropertyValue($this->activeProperties[$k], null);
-                }
-            }
-        }
-
-        $errors = $this->validator->validate($model, $validationGroups);
-        if (count($errors)) {
-            $errorsAsArray = [];
-            foreach ($errors as $error) {
-                $key = isset($this->propertyAssociations[$error->getPropertyPath()]) ? $this->propertyAssociations[$error->getPropertyPath()] : 'all';
-                $errorsAsArray[$key][] = $error->getMessage();
-            }
-
-            throw new FormValidationException($errorsAsArray);
-        }
-
-        return $this->model;
+        return $this->validationGroups;
     }
 
-    protected function setPropertyValue(RequestMapperAnnotation $propertyAnnotation, $value)
+    /**
+     * @param array $value
+     */
+    public function setValidationGroups($value)
     {
-        $methodName = 'set' . ucwords(array_search($propertyAnnotation->getName(), $this->propertyAssociations));
-        if (!$this->reflectedClass->hasMethod($methodName)) {
-            throw new BaseException("Class don`t have method {$methodName}");
-        }
+        $this->validationGroups = (array) $value;
 
-        /** @var BaseDataTransformer $valueTransformer */
-        $valueTransformer = $this->container->get('common.helper.request_mapper.data_transformer.' . $propertyAnnotation->getType());
-        $valueTransformer->setOptions(array_merge($propertyAnnotation->getOptions(), [
-            'model' => $this->model,
-            'propertyName' => $propertyAnnotation->getName()
-        ]));
-        $value = $valueTransformer->transform($value);
-
-        $this->reflectedClass->getMethod($methodName)->invoke($this->model, $value);
+        return $this;
     }
 }

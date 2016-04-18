@@ -1,9 +1,9 @@
 <?php
 
-namespace Troytft\RequestMapperBundle\DataTransformer;
+namespace Troytft\DataMapperBundle\DataTransformer;
 
 use Common\Exception\FormValidationFieldException;
-use Troytft\RequestMapperBundle\Exception\BaseException;
+use Troytft\DataMapperBundle\Exception\BaseException;
 use Doctrine\ORM\EntityManager;
 
 class ArrayOfEntityDataTransformer extends BaseDataTransformer implements DataTransformerInterface
