@@ -80,7 +80,7 @@ class Manager
     public function handle($model, $data = [])
     {
         $this->model = $model;
-        $this->data = $data;
+        $this->data = (array) $data;
 
         $this->analyzeModel();
         $this->settingValues();
