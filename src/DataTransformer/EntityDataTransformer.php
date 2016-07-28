@@ -2,9 +2,9 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
-use Doctrine\ORM\EntityManager;
-use Troytft\DataMapperBundle\Exception\BaseException;
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
+use Troytft\DataMapperBundle\Exception\BaseException;
+use Doctrine\ORM\EntityManager;
 
 class EntityDataTransformer extends BaseDataTransformer implements DataTransformerInterface
 {

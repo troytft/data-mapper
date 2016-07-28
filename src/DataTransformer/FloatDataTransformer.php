@@ -2,7 +2,7 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
-use Common\Exception\FormValidationFieldException;
+use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 
 class FloatDataTransformer extends BaseDataTransformer implements DataTransformerInterface
 {
@@ -13,7 +13,7 @@ class FloatDataTransformer extends BaseDataTransformer implements DataTransforme
         }
 
         if (!is_numeric($value)) {
-            throw new FormValidationFieldException($this->getPropertyName(), 'Значение должно быть числом');
+            throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть числом');
         }
 
         return (float) $value;

@@ -6,6 +6,6 @@ class TimestampDataTransformer extends BaseDataTransformer implements DataTransf
 {
     public function transform($value)
     {
-        return $value === null ?: (new \DateTime())->setTimestamp((int) $value);
+        return $value === null ? null : (new \DateTime('now'))->setTimestamp($value);
     }
 }
