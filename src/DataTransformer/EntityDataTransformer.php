@@ -30,7 +30,7 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
 
     public function transform($value)
     {
-        if (is_null($value)) {
+        if (is_null($value) || $value === "") {
             return null;
         }
 
