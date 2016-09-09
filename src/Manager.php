@@ -157,7 +157,7 @@ class Manager
             return;
         }
 
-        $errors = $this->validator->validate($this->model, $this->getValidationGroups());
+        $errors = $this->validator->validate($this->model, null, $this->getValidationGroups());
         if (count($errors)) {
             $errorsAsArray = [];
             foreach ($errors as $error) {
