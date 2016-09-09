@@ -1,7 +1,7 @@
 services:
     data_mapper.manager:
         class: Troytft\DataMapperBundle\Manager
-        arguments: [@annotation_reader, @validator]
+        arguments: ['@annotation_reader', '@validator']
 
     data_mapper.data_transformer.plain:
         class: Troytft\DataMapperBundle\DataTransformer\PlainDataTransformer
@@ -35,7 +35,7 @@ services:
 
     data_mapper.data_transformer.entity:
         class: Troytft\DataMapperBundle\DataTransformer\EntityDataTransformer
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: data_mapper.transformer, alias: entity }
 
@@ -46,7 +46,7 @@ services:
 
     data_mapper.data_transformer.array_of_entity:
         class: Troytft\DataMapperBundle\DataTransformer\ArrayOfEntityDataTransformer
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: data_mapper.transformer, alias: array_of_entity }
 
