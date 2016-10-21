@@ -12,10 +12,12 @@ class ArrayOfIntegerDataTransformer extends BaseDataTransformer implements DataT
             throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть массивом');
         }
 
-        foreach ($array as $value) {
-            if (!is_integer($value)) {
+        foreach ($array as &$value) {
+            if (!is_numeric($value)) {
                 throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть числом');
             }
+            
+            $value = (int) $value;
         }
 
         return $array;
