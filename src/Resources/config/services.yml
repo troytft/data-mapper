@@ -9,6 +9,8 @@ parameters:
     data_mapper.data_transformer.array.class: Troytft\DataMapperBundle\DataTransformer\ArrayDataTransformer
     data_mapper.data_transformer.array_of_entity.class: Troytft\DataMapperBundle\DataTransformer\ArrayOfEntityDataTransformer
     data_mapper.data_transformer.array_of_integer.class: Troytft\DataMapperBundle\DataTransformer\ArrayOfIntegerDataTransformer
+    data_mapper.data_transformer.datetime.class: Troytft\DataMapperBundle\DataTransformer\DateTimeDataTransformer
+    data_mapper.data_transformer.date.class: Troytft\DataMapperBundle\DataTransformer\DateDataTransformer
 
 services:
     data_mapper.manager:
@@ -66,5 +68,15 @@ services:
         class: '%data_mapper.data_transformer.array_of_integer.class%'
         tags:
             - { name: data_mapper.transformer, alias: array_of_integer }
+
+    data_mapper.data_transformer.datetime:
+        class: '%data_mapper.data_transformer.datetime.class%'
+        tags:
+            - { name: data_mapper.transformer, alias: datetime }
+
+    data_mapper.data_transformer.date:
+        class: '%data_mapper.data_transformer.date.class%'
+        tags:
+            - { name: data_mapper.transformer, alias: date }
 
 
