@@ -44,8 +44,8 @@ class DateDataTransformerTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                '2017-05-23',
-                new \DateTime('23 may 2017'),
+                '2017-03-23',
+                new \DateTime('23 march 2017'),
             ],
             [
                 null,
@@ -64,7 +64,7 @@ class DateDataTransformerTest extends \PHPUnit_Framework_TestCase
                 1495486800
             ],
             [
-                '2017-05-23T00:00:00+03:00'
+                '2017-03-23T00:00:00+03:00'
             ],
             [
                 'invalid input'

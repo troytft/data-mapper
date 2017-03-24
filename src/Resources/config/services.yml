@@ -17,6 +17,10 @@ services:
         class: Troytft\DataMapperBundle\Manager
         arguments: ['@annotation_reader', '@validator']
 
+    data_mapper.local_date_time_zone.provider:
+        class: Troytft\DataMapperBundle\LocalDateTimeZoneProvider
+        public: false
+
     data_mapper.data_transformer.plain:
         class: '%data_mapper.data_transformer.plain.class%'
         tags:
@@ -71,6 +75,7 @@ services:
 
     data_mapper.data_transformer.datetime:
         class: '%data_mapper.data_transformer.datetime.class%'
+        arguments: ['@data_mapper.local_date_time_zone.provider']
         tags:
             - { name: data_mapper.transformer, alias: datetime }
 
