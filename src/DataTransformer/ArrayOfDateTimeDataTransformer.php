@@ -2,7 +2,7 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
-use Troytft\DataMapperBundle\DateTimeTransformerTrait;
+use Troytft\DataMapperBundle\Helper\DateTimeTransformerTrait;
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider;
 

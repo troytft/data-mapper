@@ -1,6 +1,6 @@
 <?php
 
-namespace Troytft\DataMapperBundle;
+namespace Troytft\DataMapperBundle\Helper;
 
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider;
