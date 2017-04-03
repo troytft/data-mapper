@@ -11,6 +11,7 @@ parameters:
     data_mapper.data_transformer.array_of_integer.class: Troytft\DataMapperBundle\DataTransformer\ArrayOfIntegerDataTransformer
     data_mapper.data_transformer.datetime.class: Troytft\DataMapperBundle\DataTransformer\DateTimeDataTransformer
     data_mapper.data_transformer.date.class: Troytft\DataMapperBundle\DataTransformer\DateDataTransformer
+    data_mapper.data_transformer.array_of_datetime.class: Troytft\DataMapperBundle\DataTransformer\ArrayOfDateTimeDataTransformer
 
 services:
     data_mapper.manager:
@@ -84,4 +85,8 @@ services:
         tags:
             - { name: data_mapper.transformer, alias: date }
 
-
+    data_mapper.data_transformer.array_of_datetime:
+        class: '%data_mapper.data_transformer.array_of_datetime.class%'
+        arguments: ['@data_mapper.local_date_time_zone.provider']
+        tags:
+            - { name: data_mapper.transformer, alias: array_of_datetime }

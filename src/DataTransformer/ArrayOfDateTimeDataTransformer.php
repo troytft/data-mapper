@@ -3,9 +3,10 @@
 namespace Troytft\DataMapperBundle\DataTransformer;
 
 use Troytft\DataMapperBundle\Helper\DateTimeTransformerTrait;
+use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider;
 
-class DateTimeDataTransformer extends BaseDataTransformer implements DataTransformerInterface
+class ArrayOfDateTimeDataTransformer extends BaseDataTransformer implements DataTransformerInterface
 {
     use DateTimeTransformerTrait;
 
@@ -13,7 +14,7 @@ class DateTimeDataTransformer extends BaseDataTransformer implements DataTransfo
 
     const DATETIME_TRANSFORM_FORMAT = 'Y-m-d\TH:i:sP';
 
-    const WRONG_DATETIME_FORMAT_ERROR_MESSAGE = 'Значение должно быть датой в формате YYYY-MM-DDThh:mm:ss±hh:mm';
+    const WRONG_DATETIME_FORMAT_ERROR_MESSAGE = 'Значения массива должны быть датами в формате YYYY-MM-DDThh:mm:ss±hh:mm';
 
     /**
      * @var LocalDateTimeZoneProvider
@@ -42,9 +43,25 @@ class DateTimeDataTransformer extends BaseDataTransformer implements DataTransfo
         }
     }
 
-    public function transform($value)
+    public function transform($array)
     {
-        return $this->transformStringToDateTime($value);
+        if (!is_array($array)) {
+            throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть массивом');
+        }
+
+        $result = [];
+
+        foreach ($array as $value) {
+            $transformedValue = $this->transformStringToDateTime($value);
+
+            if (is_null($transformedValue)) {
+                throw new ValidationFieldException($this->getPropertyName(), 'Значения массива не должны быть пустыми');
+            }
+
+            $result[] = $transformedValue;
+        }
+
+        return $result;
     }
 
     /**
