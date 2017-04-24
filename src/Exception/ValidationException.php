@@ -9,9 +9,9 @@ class ValidationException extends BaseException
      */
     protected $errors;
 
-    public function __construct($errors = [])
+    public function __construct($errors = [], $status = 400)
     {
-        parent::__construct(json_encode(['errors' => $errors]), 400);
+        parent::__construct(json_encode(['errors' => $errors]), $status);
 
         $this->errors = $errors;
     }

@@ -80,7 +80,7 @@ class Manager
     public function handle($model, $data = [])
     {
         $this->model = $model;
-        $this->data = $data;
+        $this->data = (array) $data;
 
         $this->analyzeModel();
         $this->settingValues();
@@ -90,7 +90,7 @@ class Manager
 
         return $this->model;
     }
-
+    
     private function analyzeModel()
     {
         $this->reflectedClass = new \ReflectionClass($this->model);
@@ -157,7 +157,7 @@ class Manager
             return;
         }
 
-        $errors = $this->validator->validate($this->model, $this->getValidationGroups());
+        $errors = $this->validator->validate($this->model, null, $this->getValidationGroups());
         if (count($errors)) {
             $errorsAsArray = [];
             foreach ($errors as $error) {

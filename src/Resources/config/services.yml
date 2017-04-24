@@ -1,58 +1,92 @@
+parameters:
+    data_mapper.data_transformer.plain.class: Troytft\DataMapperBundle\DataTransformer\PlainDataTransformer
+    data_mapper.data_transformer.integer.class: Troytft\DataMapperBundle\DataTransformer\IntegerDataTransformer
+    data_mapper.data_transformer.boolean.class: Troytft\DataMapperBundle\DataTransformer\BooleanDataTransformer
+    data_mapper.data_transformer.string.class: Troytft\DataMapperBundle\DataTransformer\StringDataTransformer
+    data_mapper.data_transformer.float.class: Troytft\DataMapperBundle\DataTransformer\FloatDataTransformer
+    data_mapper.data_transformer.timestamp.class: Troytft\DataMapperBundle\DataTransformer\TimestampDataTransformer
+    data_mapper.data_transformer.entity.class: Troytft\DataMapperBundle\DataTransformer\EntityDataTransformer
+    data_mapper.data_transformer.array.class: Troytft\DataMapperBundle\DataTransformer\ArrayDataTransformer
+    data_mapper.data_transformer.array_of_entity.class: Troytft\DataMapperBundle\DataTransformer\ArrayOfEntityDataTransformer
+    data_mapper.data_transformer.array_of_integer.class: Troytft\DataMapperBundle\DataTransformer\ArrayOfIntegerDataTransformer
+    data_mapper.data_transformer.datetime.class: Troytft\DataMapperBundle\DataTransformer\DateTimeDataTransformer
+    data_mapper.data_transformer.date.class: Troytft\DataMapperBundle\DataTransformer\DateDataTransformer
+    data_mapper.data_transformer.array_of_datetime.class: Troytft\DataMapperBundle\DataTransformer\ArrayOfDateTimeDataTransformer
+
 services:
     data_mapper.manager:
         class: Troytft\DataMapperBundle\Manager
-        arguments: [@annotation_reader, @validator]
+        arguments: ['@annotation_reader', '@validator']
+
+    data_mapper.local_date_time_zone.provider:
+        class: Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider
+        public: false
 
     data_mapper.data_transformer.plain:
-        class: Troytft\DataMapperBundle\DataTransformer\PlainDataTransformer
+        class: '%data_mapper.data_transformer.plain.class%'
         tags:
             - { name: data_mapper.transformer, alias: plain }
 
     data_mapper.data_transformer.integer:
-        class: Troytft\DataMapperBundle\DataTransformer\IntegerDataTransformer
+        class: '%data_mapper.data_transformer.integer.class%'
         tags:
             - { name: data_mapper.transformer, alias: integer }
 
     data_mapper.data_transformer.boolean:
-        class: Troytft\DataMapperBundle\DataTransformer\BooleanDataTransformer
+        class: '%data_mapper.data_transformer.boolean.class%'
         tags:
             - { name: data_mapper.transformer, alias: boolean }
 
     data_mapper.data_transformer.string:
-        class: Troytft\DataMapperBundle\DataTransformer\StringDataTransformer
+        class: '%data_mapper.data_transformer.string.class%'
         tags:
             - { name: data_mapper.transformer, alias: string }
 
     data_mapper.data_transformer.float:
-        class: Troytft\DataMapperBundle\DataTransformer\FloatDataTransformer
+        class: '%data_mapper.data_transformer.float.class%'
         tags:
             - { name: data_mapper.transformer, alias: float }
 
     data_mapper.data_transformer.timestamp:
-        class: Troytft\DataMapperBundle\DataTransformer\TimestampDataTransformer
+        class: '%data_mapper.data_transformer.timestamp.class%'
         tags:
             - { name: data_mapper.transformer, alias: timestamp }
 
     data_mapper.data_transformer.entity:
-        class: Troytft\DataMapperBundle\DataTransformer\EntityDataTransformer
-        arguments: [@doctrine.orm.entity_manager]
+        class: '%data_mapper.data_transformer.entity.class%'
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: data_mapper.transformer, alias: entity }
 
     data_mapper.data_transformer.array:
-        class: Troytft\DataMapperBundle\DataTransformer\ArrayDataTransformer
+        class: '%data_mapper.data_transformer.array.class%'
         tags:
             - { name: data_mapper.transformer, alias: array }
 
     data_mapper.data_transformer.array_of_entity:
-        class: Troytft\DataMapperBundle\DataTransformer\ArrayOfEntityDataTransformer
-        arguments: [@doctrine.orm.entity_manager]
+        class: '%data_mapper.data_transformer.array_of_entity.class%'
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: data_mapper.transformer, alias: array_of_entity }
 
     data_mapper.data_transformer.array_of_integer:
-        class: Troytft\DataMapperBundle\DataTransformer\ArrayOfIntegerDataTransformer
+        class: '%data_mapper.data_transformer.array_of_integer.class%'
         tags:
             - { name: data_mapper.transformer, alias: array_of_integer }
 
+    data_mapper.data_transformer.datetime:
+        class: '%data_mapper.data_transformer.datetime.class%'
+        arguments: ['@data_mapper.local_date_time_zone.provider']
+        tags:
+            - { name: data_mapper.transformer, alias: datetime }
 
+    data_mapper.data_transformer.date:
+        class: '%data_mapper.data_transformer.date.class%'
+        tags:
+            - { name: data_mapper.transformer, alias: date }
+
+    data_mapper.data_transformer.array_of_datetime:
+        class: '%data_mapper.data_transformer.array_of_datetime.class%'
+        arguments: ['@data_mapper.local_date_time_zone.provider']
+        tags:
+            - { name: data_mapper.transformer, alias: array_of_datetime }

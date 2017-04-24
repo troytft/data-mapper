@@ -1,19 +1,25 @@
 {
     "name" : "troytft/data-mapper-bundle",
     "description": "Allow mapping data to models",
-    "version" : "0.0.1",
+    "version" : "1.4.0",
     "type" : "symfony-bundle",
     "license" : "MIT",
     "require" : {
         "php": ">=5.5",
-        "symfony/symfony": ">=2.7"
+        "symfony/validator": "^3.1",
+        "doctrine/annotations": "1.*"
     },
     "autoload" : {
-        "psr-4" : { "Troytft\\DataMapperBundle\\" : "src/" }
+        "psr-4" : {
+            "Troytft\\DataMapperBundle\\" : "src/"
+        }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "0.0.x-dev"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
     }
 }
