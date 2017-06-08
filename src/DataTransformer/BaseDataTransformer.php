@@ -2,6 +2,8 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
+use Troytft\DataMapperBundle\Exception\BaseException;
+
 abstract class BaseDataTransformer implements DataTransformerInterface
 {
     const PROPERTY_NAME_OPTION = 'propertyName';
@@ -44,7 +46,7 @@ abstract class BaseDataTransformer implements DataTransformerInterface
     public function getPropertyName()
     {
         if (!isset($this->getOptions()[self::PROPERTY_NAME_OPTION])) {
-            throw new \RuntimeException('Property name must be defined!');
+            throw new BaseException('Property name must be defined!');
         }
 
         return (string) $this->getOptions()[self::PROPERTY_NAME_OPTION];
