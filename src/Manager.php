@@ -130,7 +130,7 @@ class Manager
         $dataTransformer = $this->getDataTransformer($propertyAnnotation->getType());
         $dataTransformer->setOptions(array_merge($propertyAnnotation->getOptions(), [
             'model' => $this->model,
-            'propertyName' => $propertyAnnotation->getName()
+            BaseDataTransformer::PROPERTY_NAME_OPTION => $propertyAnnotation->getName()
         ]));
         $value = $dataTransformer->transform($value);
 

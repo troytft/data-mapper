@@ -17,15 +17,16 @@ class ArrayOfEntityDataTransformer extends BaseDataTransformer implements DataTr
         $this->em = $em;
     }
 
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
+        parent::setOptions($options);
+
         if (empty($options['class'])) {
             throw new BaseException('Class name can`t be empty');
         }
 
         $this->entityName = $options['class'];
         $this->fieldName = empty($options['field']) ? 'id' : $options['field'];
-        parent::setOptions($options);
     }
 
     public function transform($value)

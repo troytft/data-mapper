@@ -33,7 +33,7 @@ class DateTimeDataTransformer extends BaseDataTransformer implements DataTransfo
         $this->timeZoneProvider = $timeZoneProvider;
     }
 
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
         parent::setOptions($options);
 
