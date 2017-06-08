@@ -27,6 +27,7 @@ class ArrayOfDateTimeDataTransformerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->transformer = new ArrayOfDateTimeDataTransformer($this->localTimeZoneProviderMock);
+        $this->transformer->setOptions(['propertyName' => 'propertyName']);
     }
 
     /**

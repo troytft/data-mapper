@@ -14,6 +14,7 @@ class DateDataTransformerTest extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         $this->transformer = new DateDataTransformer();
+        $this->transformer->setOptions(['propertyName' => 'propertyName']);
     }
 
     /**
