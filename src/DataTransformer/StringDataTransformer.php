@@ -29,6 +29,6 @@ class StringDataTransformer extends BaseDataTransformer implements DataTransform
             return trim($value);
         }
 
-        return $value;
+        return (string) $value;
     }
 }
