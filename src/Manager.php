@@ -95,6 +95,12 @@ class Manager
     {
         $this->reflectedClass = new \ReflectionClass($this->model);
 
+        // tmp hack for doctrine proxy
+        $doctrineProxyPrefix = 'Proxies\__CG__\\';
+        if (substr($this->reflectedClass->getName(), 0, strlen($doctrineProxyPrefix)) === $doctrineProxyPrefix) {
+            $this->reflectedClass = $this->reflectedClass->getParentClass();
+        }
+
         foreach ($this->reflectedClass->getProperties() as $property) {
             /** @var DataMapperAnnotation $annotation */
             $annotation = $this->annotationReader->getPropertyAnnotation($property, new DataMapperAnnotation());
