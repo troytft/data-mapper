@@ -98,10 +98,12 @@ class Manager
         // tmp hack for doctrine proxy
         $doctrineProxyPrefix = 'Proxies\__CG__\\';
         if (substr($this->reflectedClass->getName(), 0, strlen($doctrineProxyPrefix)) === $doctrineProxyPrefix) {
-            $this->reflectedClass = $this->reflectedClass->getParentClass();
+            $properties = $this->reflectedClass->getParentClass()->getProperties();
+        } else {
+            $properties = $this->reflectedClass->getProperties();
         }
 
-        foreach ($this->reflectedClass->getProperties() as $property) {
+        foreach ($properties as $property) {
             /** @var DataMapperAnnotation $annotation */
             $annotation = $this->annotationReader->getPropertyAnnotation($property, new DataMapperAnnotation());
             if ($annotation && array_intersect($this->groups, $annotation->getGroups())) {
