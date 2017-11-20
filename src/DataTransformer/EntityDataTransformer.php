@@ -44,7 +44,8 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
             throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть строкой или числом');
         }
 
-        if (!$entity = $this->em->getRepository($this->entityName)->findOneBy([$this->fieldName => $value]) && !$this->nullable) {
+        $entity = $this->em->getRepository($this->entityName)->findOneBy([$this->fieldName => $value]);
+        if (!$entity && !$this->nullable) {
             throw new ValidationFieldException($this->getPropertyName(), 'Сущность с таким значением не найдена');
         }
 
