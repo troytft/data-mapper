@@ -11,6 +11,7 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
     private $em;
     private $entityName;
     private $fieldName;
+    private $nullable = false;
 
     public function __construct(EntityManager $em)
     {
@@ -23,6 +24,10 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
 
         if (empty($options['class'])) {
             throw new BaseException('Class name can`t be empty');
+        }
+
+        if (isset($options['nullable'])) {
+            $this->nullable = (bool) $options['nullable'];
         }
 
         $this->entityName = $options['class'];
@@ -39,7 +44,7 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
             throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть строкой или числом');
         }
 
-        if (!$entity = $this->em->getRepository($this->entityName)->findOneBy([$this->fieldName => $value])) {
+        if (!$entity = $this->em->getRepository($this->entityName)->findOneBy([$this->fieldName => $value]) && !$this->nullable) {
             throw new ValidationFieldException($this->getPropertyName(), 'Сущность с таким значением не найдена');
         }
 
