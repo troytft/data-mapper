@@ -142,8 +142,9 @@ class Context
 
         $dataTransformer = $this->getManager()->getDataTransformer($propertyAnnotation->getType());
         $dataTransformer->setOptions(array_merge($propertyAnnotation->getOptions(), [
-            'model' => $this->model,
-            BaseDataTransformer::PROPERTY_NAME_OPTION => $propertyAnnotation->getName()
+            BaseDataTransformer::MODEL_OPTION => $this->model,
+            BaseDataTransformer::MODEL_REFLECTION_OPTION => $this->reflectedClass,
+            BaseDataTransformer::PROPERTY_NAME_OPTION => $propertyAnnotation->getName(),
         ]));
         $value = $dataTransformer->transform($value);
 
