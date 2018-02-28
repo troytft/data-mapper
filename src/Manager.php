@@ -57,12 +57,13 @@ class Manager
     /**
      * @param object $model
      * @param array $data
+     * @param bool $shouldShutdown
      *
      * @return object
      * @throws Exception\UnknownPropertyException
      * @throws Exception\ValidationException
      */
-    public function handle($model, $data = [])
+    public function handle($model, $data = [], $shouldShutdown = true)
     {
         $context = new Helper\Context($this);
 
@@ -73,7 +74,9 @@ class Manager
             ->setIsValidate($this->isIsValidate())
             ->handle($model, (array) $data);
 
-        $this->shutdown();
+        if ($shouldShutdown) {
+            $this->shutdown();
+        }
 
         return $result;
     }
