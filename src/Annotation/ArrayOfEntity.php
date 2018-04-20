@@ -8,7 +8,7 @@ use Doctrine\Common\Annotations\Annotation\Attributes;
 /**
  * @Annotation
  */
-class ArrayOfEntityType extends DataMapper
+class ArrayOfEntity extends DataMapper
 {
     /**
      * @var string|null
@@ -16,7 +16,7 @@ class ArrayOfEntityType extends DataMapper
     private $class;
 
     /**
-     * @var strin|gnull
+     * @var string|null
      */
     private $field = 'id';
 

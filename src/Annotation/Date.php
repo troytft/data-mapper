@@ -5,13 +5,13 @@ namespace Troytft\DataMapperBundle\Annotation;
 /**
  * @Annotation
  */
-class IntegerType extends DataMapper
+class Date extends DataMapper
 {
     /**
      * @return string
      */
     public function getType()
     {
-        return 'integer';
+        return 'date';
     }
 }

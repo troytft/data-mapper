@@ -7,7 +7,7 @@ use Doctrine\Common\Annotations\Annotation;
 /**
  * @Annotation
  */
-class EntityType extends DataMapper
+class Entity extends DataMapper
 {
     /**
      * @var string|null
@@ -15,7 +15,7 @@ class EntityType extends DataMapper
     private $class;
 
     /**
-     * @var strin|gnull
+     * @var string|null
      */
     private $field = 'id';
 
