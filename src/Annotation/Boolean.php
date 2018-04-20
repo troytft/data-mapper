@@ -5,13 +5,13 @@ namespace Troytft\DataMapperBundle\Annotation;
 /**
  * @Annotation
  */
-class StringType extends DataMapper
+class Boolean extends DataMapper
 {
     /**
      * @return string
      */
     public function getType()
     {
-        return 'string';
+        return 'boolean';
     }
 }
