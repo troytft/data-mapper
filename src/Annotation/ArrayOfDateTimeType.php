@@ -5,7 +5,7 @@ namespace Troytft\DataMapperBundle\Annotation;
 /**
  * @Annotation
  */
-class ArrayOfDateTime extends DataMapper
+class ArrayOfDateTimeType extends DataMapper
 {
     /**
      * @return string

@@ -5,13 +5,13 @@ namespace Troytft\DataMapperBundle\Annotation;
 /**
  * @Annotation
  */
-class Integer extends DataMapper
+class FloatType extends DataMapper
 {
     /**
      * @return string
      */
     public function getType()
     {
-        return 'integer';
+        return 'float';
     }
 }

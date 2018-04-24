@@ -5,6 +5,6 @@ namespace Troytft\DataMapperBundle\Annotation;
 /**
  * @Annotation
  */
-class Custom extends DataMapper
+class CustomType extends DataMapper
 {
 }
