@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Troytft/data-mapper.svg?branch=master)](https://travis-ci.org/Troytft/data-mapper)
+
 # Data Mapper Bundle
 
 ## Installation
