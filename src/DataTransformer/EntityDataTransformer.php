@@ -18,7 +18,7 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
         $this->em = $em;
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options = [])
     {
         parent::setOptions($options);
 

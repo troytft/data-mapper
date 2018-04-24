@@ -17,7 +17,7 @@ class ArrayOfEntityDataTransformer extends BaseDataTransformer implements DataTr
         $this->em = $em;
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options = [])
     {
         parent::setOptions($options);
 
