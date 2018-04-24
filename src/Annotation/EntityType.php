@@ -2,13 +2,12 @@
 
 namespace Troytft\DataMapperBundle\Annotation;
 
-use Doctrine\Common\Annotations\Annotation\Attribute;
-use Doctrine\Common\Annotations\Annotation\Attributes;
+use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
  */
-class ArrayOfEntity extends DataMapper
+class EntityType extends DataMapper
 {
     /**
      * @var string|null
@@ -41,7 +40,7 @@ class ArrayOfEntity extends DataMapper
      */
     public function getType()
     {
-        return 'array_of_entity';
+        return 'entity';
     }
 
     /**
