@@ -34,7 +34,7 @@ class ArrayOfDateTimeDataTransformer extends BaseDataTransformer implements Data
         $this->timeZoneProvider = $timeZoneProvider;
     }
 
-    public function setOptions(array $options)
+    public function setOptions(array $options = [])
     {
         parent::setOptions($options);
 
