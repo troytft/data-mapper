@@ -1,6 +1,6 @@
 <?php
 
-namespace DataTransformer;
+namespace Troytft\DataMapperBundle\Tests\DataTransformer;
 
 use Troytft\DataMapperBundle\DataTransformer\StringDataTransformer;
 
