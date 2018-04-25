@@ -1,11 +1,11 @@
 {
     "name" : "troytft/data-mapper-bundle",
     "description": "Allow mapping data to models",
-    "version" : "2.5.1",
+    "version" : "2.5.2",
     "type" : "symfony-bundle",
     "license" : "MIT",
     "require" : {
-        "php": "^7.1",
+        "php": "^7.0",
         "symfony/validator": "~3.4.8",
         "doctrine/orm": "~2.6.1",
         "symfony/dependency-injection": "~3.4.8",
