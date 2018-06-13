@@ -6,6 +6,10 @@ class BooleanDataTransformer extends BaseDataTransformer implements DataTransfor
 {
     public function transform($value)
     {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        if ($value === null) {
+            return null;
+        }
+
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
 }
