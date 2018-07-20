@@ -20,7 +20,7 @@ class ArrayOfDateTimeType extends DataMapper
      */
     public function getOptions()
     {
-        return array_map(parent::getOptions(), [
+        return array_merge(parent::getOptions(), [
             'setLocalTimeZone' => true
         ]);
     }
