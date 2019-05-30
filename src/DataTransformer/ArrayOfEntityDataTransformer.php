@@ -6,7 +6,7 @@ use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Exception\BaseException;
 use Doctrine\ORM\EntityManager;
 
-class ArrayOfEntityDataTransformer extends BaseDataTransformer implements DataTransformerInterface
+class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements DataTransformerInterface
 {
     private $em;
     private $entityName;
@@ -31,8 +31,12 @@ class ArrayOfEntityDataTransformer extends BaseDataTransformer implements DataTr
 
     public function transform($value)
     {
-        if (is_null($value)) {
-            $value = [];
+        if ($value === null) {
+            if ($this->isNullable()) {
+                return null;
+            } else {
+                $value = [];
+            }
         }
 
         if (!is_array($value)) {

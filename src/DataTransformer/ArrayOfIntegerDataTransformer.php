@@ -4,29 +4,12 @@ namespace Troytft\DataMapperBundle\DataTransformer;
 
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 
-class ArrayOfIntegerDataTransformer extends BaseDataTransformer implements DataTransformerInterface
+class ArrayOfIntegerDataTransformer extends BaseArrayDataTransformer implements DataTransformerInterface
 {
-    /**
-     * @var bool
-     */
-    private $nullable = false;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setOptions(array $value = [])
-    {
-        parent::setOptions($value);
-
-        if (\array_key_exists('nullable', $value)) {
-            $this->nullable = $value['nullable'];
-        }
-    }
-
     public function transform($array)
     {
-        if ($this->nullable && $array === null) {
-            $array = [];
+        if ($this->isNullable() && $array === null) {
+            return null;
         }
 
         if (!is_array($array)) {

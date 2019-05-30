@@ -6,7 +6,7 @@ use Troytft\DataMapperBundle\Helper\DateTimeTransformerTrait;
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider;
 
-class ArrayOfDateTimeDataTransformer extends BaseDataTransformer implements DataTransformerInterface
+class ArrayOfDateTimeDataTransformer extends BaseArrayDataTransformer implements DataTransformerInterface
 {
     use DateTimeTransformerTrait;
 
@@ -45,6 +45,10 @@ class ArrayOfDateTimeDataTransformer extends BaseDataTransformer implements Data
 
     public function transform($array)
     {
+        if ($this->isNullable() && $array === null) {
+            return null;
+        }
+
         if (!is_array($array)) {
             throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть массивом');
         }
