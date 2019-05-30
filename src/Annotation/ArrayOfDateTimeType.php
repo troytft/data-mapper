@@ -8,6 +8,23 @@ namespace Troytft\DataMapperBundle\Annotation;
 class ArrayOfDateTimeType extends DataMapper
 {
     /**
+     * @var bool
+     */
+    private $nullable = false;
+
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options = [])
+    {
+        parent::__construct($options);
+
+        if (isset($options['nullable'])) {
+            $this->nullable = $options['nullable'];
+        }
+    }
+
+    /**
      * @return string
      */
     public function getType()
@@ -21,7 +38,8 @@ class ArrayOfDateTimeType extends DataMapper
     public function getOptions()
     {
         return array_merge(parent::getOptions(), [
-            'setLocalTimeZone' => true
+            'setLocalTimeZone' => true,
+            'nullable' => $this->nullable,
         ]);
     }
 }
