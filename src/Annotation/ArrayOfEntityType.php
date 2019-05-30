@@ -21,6 +21,11 @@ class ArrayOfEntityType extends DataMapper
     private $field = 'id';
 
     /**
+     * @var bool
+     */
+    private $nullable = false;
+
+    /**
      * @param array $options
      */
     public function __construct(array $options = [])
@@ -33,6 +38,10 @@ class ArrayOfEntityType extends DataMapper
 
         if (isset($options['field'])) {
             $this->field = $options['field'];
+        }
+
+        if (isset($options['nullable'])) {
+            $this->nullable = $options['nullable'];
         }
     }
 
@@ -51,7 +60,8 @@ class ArrayOfEntityType extends DataMapper
     {
         return array_merge(parent::getOptions(), [
             'class' => $this->class,
-            'field' => $this->field
+            'field' => $this->field,
+            'nullable' => $this->nullable,
         ]);
     }
 }
