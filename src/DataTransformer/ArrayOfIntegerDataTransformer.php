@@ -9,7 +9,7 @@ class ArrayOfIntegerDataTransformer extends BaseArrayDataTransformer implements 
     /**
      * @var bool
      */
-    protected $isForceArray = false;
+    protected $isForceArray = true;
 
     public function transform($array)
     {
