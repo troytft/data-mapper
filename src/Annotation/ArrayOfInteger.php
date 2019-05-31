@@ -7,6 +7,24 @@ namespace Troytft\DataMapperBundle\Annotation;
  */
 class ArrayOfInteger extends DataMapper
 {
+
+    /**
+     * @var bool
+     */
+    private $nullable = false;
+
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options = [])
+    {
+        parent::__construct($options);
+
+        if (isset($options['nullable'])) {
+            $this->nullable = $options['nullable'];
+        }
+    }
+
     /**
      * @return string
      */
@@ -21,7 +39,7 @@ class ArrayOfInteger extends DataMapper
     public function getOptions()
     {
         return array_merge(parent::getOptions(), [
-            'nullable' => true
+            'nullable' => $this->nullable,
         ]);
     }
 }
