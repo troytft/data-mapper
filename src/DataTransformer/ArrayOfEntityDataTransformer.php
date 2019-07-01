@@ -2,6 +2,9 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
+use function array_search;
+use function ksort;
+use function method_exists;
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Exception\BaseException;
 use Doctrine\ORM\EntityManager;
@@ -59,6 +62,23 @@ class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements D
             throw new ValidationFieldException($this->getPropertyName(), 'Не найдена сущность по одному из значений массива');
         }
 
-        return $results;
+        $sortedResults = [];
+        foreach ($results as $object) {
+            if (!method_exists($object, 'getId')) {
+                throw new \InvalidArgumentException();
+            }
+
+            $key = array_search($object->getId(), $value);
+            if ($key === false) {
+                throw new \InvalidArgumentException();
+            }
+
+            $sortedResults[$key] = $object;
+        }
+
+        unset($results);
+        ksort($sortedResults);
+
+        return $sortedResults;
     }
 }
