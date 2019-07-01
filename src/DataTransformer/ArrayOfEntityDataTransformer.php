@@ -8,6 +8,7 @@ use function method_exists;
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Exception\BaseException;
 use Doctrine\ORM\EntityManager;
+use function ucfirst;
 
 class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements DataTransformerInterface
 {
@@ -63,12 +64,14 @@ class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements D
         }
 
         $sortedResults = [];
+        $getterName = 'get' . ucfirst($this->fieldName);
+
         foreach ($results as $object) {
-            if (!method_exists($object, 'getId')) {
+            if (!method_exists($object, $getterName)) {
                 throw new \InvalidArgumentException();
             }
 
-            $key = array_search($object->getId(), $value);
+            $key = array_search($object->{$getterName}(), $value);
             if ($key === false) {
                 throw new \InvalidArgumentException();
             }
