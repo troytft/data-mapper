@@ -40,7 +40,10 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
             return null;
         }
 
-        if (!is_string($value) && !is_numeric($value)) {
+        $fieldType = $this->em->getClassMetadata($this->entityName)->getTypeOfField($this->fieldName);
+        if ($fieldType === \Doctrine\DBAL\Types\Type::INTEGER && !is_numeric($value)) {
+            throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть числом');
+        } elseif (!is_numeric($value) && !is_string($value)) {
             throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть строкой или числом');
         }
 
