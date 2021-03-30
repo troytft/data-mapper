@@ -18,10 +18,6 @@ services:
         class: Troytft\DataMapperBundle\Manager
         arguments: ['@annotation_reader', '@validator']
 
-    data_mapper.local_date_time_zone.provider:
-        class: Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider
-        public: false
-
     data_mapper.data_transformer.plain:
         class: '%data_mapper.data_transformer.plain.class%'
         tags:

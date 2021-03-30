@@ -3,7 +3,6 @@
 namespace Troytft\DataMapperBundle\DataTransformer;
 
 use Troytft\DataMapperBundle\Helper\DateTimeTransformerTrait;
-use Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider;
 
 class DateTimeDataTransformer extends BaseDataTransformer implements DataTransformerInterface
 {
@@ -16,22 +15,9 @@ class DateTimeDataTransformer extends BaseDataTransformer implements DataTransfo
     const WRONG_DATETIME_FORMAT_ERROR_MESSAGE = 'Значение должно быть датой в формате YYYY-MM-DDThh:mm:ss±hh:mm';
 
     /**
-     * @var LocalDateTimeZoneProvider
-     */
-    private $timeZoneProvider;
-
-    /**
      * @var bool
      */
     private $setLocalTimeZone = false;
-
-    /**
-     * @param LocalDateTimeZoneProvider $timeZoneProvider
-     */
-    public function __construct(LocalDateTimeZoneProvider $timeZoneProvider)
-    {
-        $this->timeZoneProvider = $timeZoneProvider;
-    }
 
     public function setOptions(array $options = [])
     {
@@ -61,14 +47,6 @@ class DateTimeDataTransformer extends BaseDataTransformer implements DataTransfo
     protected function getShouldSetLocalTimeZone()
     {
         return $this->setLocalTimeZone;
-    }
-
-    /**
-     * @return LocalDateTimeZoneProvider
-     */
-    protected function getTimeZoneProvider()
-    {
-        return $this->timeZoneProvider;
     }
 
     /**

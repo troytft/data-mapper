@@ -3,7 +3,6 @@
 namespace Troytft\DataMapperBundle\Helper;
 
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
-use Troytft\DataMapperBundle\Service\LocalDateTimeZoneProvider;
 
 trait DateTimeTransformerTrait
 {
@@ -21,11 +20,6 @@ trait DateTimeTransformerTrait
      * @return bool
      */
     abstract protected function getShouldSetLocalTimeZone();
-
-    /**
-     * @return LocalDateTimeZoneProvider
-     */
-    abstract protected function getTimeZoneProvider();
 
     /**
      * @return mixed
@@ -51,7 +45,8 @@ trait DateTimeTransformerTrait
         }
 
         if ($this->getShouldSetLocalTimeZone()) {
-            $result->setTimezone($this->getTimeZoneProvider()->getLocalDateTimeZone());
+            $dateTime = new \DateTime();
+            $result->setTimezone($dateTime->getTimezone());
         }
 
         return $result;

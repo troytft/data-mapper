@@ -4,11 +4,11 @@
     "type" : "symfony-bundle",
     "license" : "MIT",
     "require" : {
-        "php": "^7.0",
-        "symfony/validator": "^3.0 || ^4.0",
-        "doctrine/orm": "~2.5",
-        "symfony/framework-bundle": "^3.0 || ^4.0",
-        "symfony/yaml": "^3.0 || ^4.0"
+        "php": ">=7.2.5",
+        "symfony/validator": "^4.4 || ^5.2",
+        "doctrine/orm": "^2.5",
+        "symfony/framework-bundle": "^4.4 || ^5.2",
+        "symfony/yaml": "^4.4 || ^5.2"
     },
     "autoload" : {
         "psr-4" : {
@@ -20,13 +20,8 @@
             "Troytft\\DataMapperBundle\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.0.x-dev"
-        }
-    },
     "require-dev": {
-        "phpunit/phpunit": "~4.8",
+        "phpunit/phpunit": "^8.5",
         "phpstan/phpstan": "^0.12"
     }
 }
