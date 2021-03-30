@@ -30,12 +30,12 @@ class Manager
     private $isValidate = true;
 
     /**
-     * @var array
+     * @var string[]
      */
     private $groups = ['Default'];
 
     /**
-     * @var array
+     * @var string[]
      */
     private $validationGroups = ['Default'];
 
@@ -44,10 +44,6 @@ class Manager
      */
     private $validator;
 
-    /**
-     * @param AnnotationReaderInterface $annotationReader
-     * @param ValidatorInterface $validator
-     */
     public function __construct(AnnotationReaderInterface $annotationReader, ValidatorInterface $validator)
     {
         $this->annotationReader = $annotationReader;
@@ -56,14 +52,10 @@ class Manager
 
     /**
      * @param object $model
-     * @param array $data
-     * @param bool $shouldShutdown
      *
      * @return object
-     * @throws Exception\UnknownPropertyException
-     * @throws Exception\ValidationException
      */
-    public function handle($model, $data = [], $shouldShutdown = true)
+    public function handle($model, array $data = [], bool $shouldShutdown = true)
     {
         $context = new Helper\Context($this);
 
@@ -81,24 +73,19 @@ class Manager
         return $result;
     }
 
-    private function shutdown()
+    private function shutdown(): void
     {
         $this->isClearMissing = true;
         $this->groups = ['Default'];
         $this->validationGroups = ['Default'];
     }
 
-    public function addDataTransformer(DataTransformerInterface $dataTransformer, $alias)
+    public function addDataTransformer(DataTransformerInterface $dataTransformer, string $alias)
     {
         $this->dataTransformers[$alias] = $dataTransformer;
     }
 
-    /**
-     * @param string $alias
-     * @return DataTransformerInterface
-     * @throws Exception\UnknownDataTransformerException
-     */
-    public function getDataTransformer($alias)
+    public function getDataTransformer(string $alias): DataTransformerInterface
     {
         if (!array_key_exists($alias, $this->dataTransformers)) {
             throw new Exception\UnknownDataTransformerException($alias);
@@ -107,40 +94,30 @@ class Manager
         return $this->dataTransformers[$alias];
     }
 
-    /**
-     * @return boolean
-     */
-    public function isIsClearMissing()
+    public function isIsClearMissing(): bool
     {
         return $this->isClearMissing;
     }
 
     /**
-     * @param boolean $value
-     *
      * @return $this
      */
-    public function setIsClearMissing($value)
+    public function setIsClearMissing(bool $value)
     {
         $this->isClearMissing = $value;
 
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isIsValidate()
+    public function isIsValidate(): bool
     {
         return $this->isValidate;
     }
 
     /**
-     * @param boolean $value
-     *
      * @return $this
      */
-    public function setIsValidate($value)
+    public function setIsValidate(bool $value)
     {
         $this->isValidate = $value;
 
@@ -148,29 +125,27 @@ class Manager
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getGroups()
+    public function getGroups(): array
     {
         return $this->groups;
     }
 
     /**
-     * @param array $value
+     * @param string[] $groups
      *
      * @return $this
      */
-    public function setGroups($value)
+    public function setGroups(array $groups)
     {
-        $this->groups = (array) $value;
+        $this->groups = $groups;
 
         return $this;
     }
 
     /**
      * @return array
-     *
-     * @return $this
      */
     public function getValidationGroups()
     {
@@ -178,29 +153,23 @@ class Manager
     }
 
     /**
-     * @param array $value
+     * @param string[] $value
      *
      * @return $this
      */
-    public function setValidationGroups($value)
+    public function setValidationGroups(array $value)
     {
-        $this->validationGroups = (array) $value;
+        $this->validationGroups = $value;
 
         return $this;
     }
 
-    /**
-     * @return AnnotationReaderInterface
-     */
-    public function getAnnotationReader()
+    public function getAnnotationReader(): AnnotationReaderInterface
     {
         return $this->annotationReader;
     }
 
-    /**
-     * @return ValidatorInterface
-     */
-    public function getValidator()
+    public function getValidator(): ValidatorInterface
     {
         return $this->validator;
     }

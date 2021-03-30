@@ -109,9 +109,8 @@ class Context
         }
 
         foreach ($properties as $property) {
-            /** @var DataMapperAnnotation $annotation */
-            $annotation = $this->getManager()->getAnnotationReader()->getPropertyAnnotation($property, new DataMapperAnnotation());
-            if ($annotation && array_intersect($this->groups, $annotation->getGroups())) {
+            $annotation = $this->getManager()->getAnnotationReader()->getPropertyAnnotation($property, DataMapperAnnotation::class);
+            if ($annotation instanceof DataMapperAnnotation && array_intersect($this->groups, $annotation->getGroups())) {
                 $annotation->setName($annotation->getName() ?: $property->getName());
 
                 $this->propertyNameToDataKey[$property->getName()] = $annotation->getName();

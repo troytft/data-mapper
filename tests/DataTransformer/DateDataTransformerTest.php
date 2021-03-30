@@ -2,16 +2,17 @@
 
 namespace Troytft\DataMapperBundle\Tests\DataTransformer;
 
+use PHPUnit\Framework\TestCase;
 use Troytft\DataMapperBundle\DataTransformer\DateDataTransformer;
 
-class DateDataTransformerTest extends \PHPUnit_Framework_TestCase
+class DateDataTransformerTest extends TestCase
 {
     /**
      * @var DateDataTransformer
      */
     private $transformer;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->transformer = new DateDataTransformer();
         $this->transformer->setOptions(['propertyName' => 'propertyName']);
@@ -29,13 +30,15 @@ class DateDataTransformerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider invalidInputProvider
-     *
-     * @expectedException \Troytft\DataMapperBundle\Exception\ValidationFieldException
-     * @expectedExceptionCode 400
      */
     public function testInputValidation($invalidInput)
     {
-        $this->transformer->transform($invalidInput);
+        try {
+            $this->transformer->transform($invalidInput);
+            $this->fail();
+        } catch (\Troytft\DataMapperBundle\Exception\ValidationFieldException $exception) {
+            $this->assertEquals(400, $exception->getCode());
+        }
     }
 
     /**
