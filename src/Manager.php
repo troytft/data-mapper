@@ -94,7 +94,7 @@ class Manager
     }
 
     /**
-     * @param $alias
+     * @param string $alias
      * @return DataTransformerInterface
      * @throws Exception\UnknownDataTransformerException
      */
