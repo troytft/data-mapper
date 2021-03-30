@@ -2,12 +2,12 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
+use Doctrine\ORM\EntityManagerInterface;
 use function array_search;
 use function ksort;
 use function method_exists;
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Exception\BaseException;
-use Doctrine\ORM\EntityManager;
 use function ucfirst;
 
 class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements DataTransformerInterface
@@ -16,7 +16,7 @@ class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements D
     private $entityName;
     private $fieldName;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
