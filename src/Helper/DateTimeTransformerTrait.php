@@ -33,7 +33,7 @@ trait DateTimeTransformerTrait
     abstract protected function getWrongIsoFormatMessage();
 
     /**
-     * @param $value
+     * @param string|null $value
      *
      * @return \DateTime|null
      * @throws ValidationFieldException

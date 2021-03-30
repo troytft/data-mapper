@@ -17,9 +17,6 @@ abstract class BaseArrayDataTransformer extends BaseDataTransformer
      */
     protected $isForceArray = true;
 
-    /**
-     * {@inheritDoc}
-     */
     public function setOptions(array $value = [])
     {
         if (isset($value[static::NULLABLE_OPTION])) {
@@ -30,6 +27,6 @@ abstract class BaseArrayDataTransformer extends BaseDataTransformer
             $this->isForceArray = $value[static::FORCE_ARRAY_OPTION];
         }
 
-        return parent::setOptions($value);
+        parent::setOptions($value);
     }
 }

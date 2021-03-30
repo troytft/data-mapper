@@ -33,11 +33,6 @@ abstract class BaseDataTransformer implements DataTransformerInterface
         return (array) $this->options;
     }
 
-    /**
-     * @param array $value
-     *
-     * @return $this
-     */
     public function setOptions(array $value = [])
     {
         if (isset($value[static::MODEL_OPTION])) {
@@ -48,8 +43,6 @@ abstract class BaseDataTransformer implements DataTransformerInterface
         }
 
         $this->options = $value;
-
-        return $this;
     }
 
     /**

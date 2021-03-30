@@ -15,7 +15,7 @@ class Manager
     private $annotationReader;
 
     /**
-     * @var array
+     * @var array<string, DataTransformerInterface>
      */
     private $dataTransformers = [];
 
@@ -94,7 +94,7 @@ class Manager
     }
 
     /**
-     * @param $alias
+     * @param string $alias
      * @return DataTransformerInterface
      * @throws Exception\UnknownDataTransformerException
      */
