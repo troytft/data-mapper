@@ -2,6 +2,8 @@
 
 # Data Mapper Bundle
 
+[DEPRECATED] Project is closed, for new applications should use https://github.com/troytft/rest-api-bundle
+
 ## Installation
 Install using Composer:
 
