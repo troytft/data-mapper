@@ -5,22 +5,23 @@ namespace Troytft\DataMapperBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
+use Troytft\DataMapperBundle\Manager;
 
 class DataTransformerCompilerPass implements CompilerPassInterface
 {
+    public const TAG = 'data_mapper.transformer';
+
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('data_mapper.manager')) {
+        if (!$container->has(Manager::class)) {
             return;
         }
 
-        $definition = $container->findDefinition('data_mapper.manager');
-        $taggedServices = $container->findTaggedServiceIds('data_mapper.transformer');
-        
+        $definition = $container->findDefinition(Manager::class);
+        $taggedServices = $container->findTaggedServiceIds(static::TAG);
+
         foreach ($taggedServices as $id => $tags) {
-            foreach ($tags as $attributes) {
-                $definition->addMethodCall('addDataTransformer', [new Reference($id), $attributes["alias"]]);
-            }
+            $definition->addMethodCall('addDataTransformer', [new Reference($id)]);
         }
     }
 }

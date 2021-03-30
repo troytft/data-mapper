@@ -1,45 +1,29 @@
 <?php
 
-namespace Troytft\DataMapperBundle\Tests\DataTransformer;
-
 use PHPUnit\Framework\TestCase;
-use Troytft\DataMapperBundle\DataTransformer\DateTimeDataTransformer;
+use Troytft\DataMapperBundle\DataTransformer\DateDataTransformer;
 
-class DateTimeDataTransformerTest extends TestCase
+class DateDataTransformerTest extends TestCase
 {
     /**
-     * @var DateTimeDataTransformer
+     * @var DateDataTransformer
      */
     private $transformer;
 
     public function setUp(): void
     {
-        $this->transformer = new DateTimeDataTransformer();
+        $this->transformer = new DateDataTransformer();
         $this->transformer->setOptions(['propertyName' => 'propertyName']);
     }
 
     /**
      * @dataProvider validInputToExpectedResultProvider
      */
-    public function testTransform($input, \DateTime $expectedResult = null)
+    public function testTransform($input, $expectedResult)
     {
         $result = $this->transformer->transform($input);
 
-        if (is_null($expectedResult)) {
-            $this->assertEquals($expectedResult, $result);
-        } else {
-            $this->assertEquals(
-                $expectedResult->getTimestamp(),
-                $result->getTimestamp(),
-                'Expected timestamp does not match actual timestamp'
-            );
-
-            $this->assertEquals(
-                $expectedResult->format('P'),
-                $result->format('P'),
-                'Expected UTC offset does not match actual UTC offset'
-            );
-        }
+        $this->assertEquals($expectedResult, $result);
     }
 
     /**
@@ -60,12 +44,9 @@ class DateTimeDataTransformerTest extends TestCase
      */
     public function validInputToExpectedResultProvider()
     {
-        // ex.: +03:00
-        $localTimezone = (new \DateTime())->format('P');
-
         return [
             [
-                '2017-03-23T00:00:00'.$localTimezone,
+                '2017-03-23',
                 new \DateTime('23 march 2017'),
             ],
             [
@@ -85,7 +66,7 @@ class DateTimeDataTransformerTest extends TestCase
                 1495486800
             ],
             [
-                '2017-05-23'
+                '2017-03-23T00:00:00+03:00'
             ],
             [
                 'invalid input'

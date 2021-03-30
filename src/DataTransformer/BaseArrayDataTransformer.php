@@ -17,7 +17,7 @@ abstract class BaseArrayDataTransformer extends BaseDataTransformer
      */
     protected $isForceArray = true;
 
-    public function setOptions(array $value = [])
+    public function setOptions(array $value = []): void
     {
         if (isset($value[static::NULLABLE_OPTION])) {
             $this->isNullable = $value[static::NULLABLE_OPTION];

@@ -22,4 +22,9 @@ class DateDataTransformer extends BaseDataTransformer implements DataTransformer
 
         return $result->setTime(0, 0, 0);
     }
+
+    public static function getAlias(): string
+    {
+        return 'date';
+    }
 }

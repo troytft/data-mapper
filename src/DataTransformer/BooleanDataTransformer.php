@@ -20,4 +20,9 @@ class BooleanDataTransformer extends BaseDataTransformer implements DataTransfor
         
         return $val;
     }
+
+    public static function getAlias(): string
+    {
+        return 'boolean';
+    }
 }

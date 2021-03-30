@@ -8,4 +8,9 @@ class PlainDataTransformer extends BaseDataTransformer implements DataTransforme
     {
         return $value;
     }
+
+    public static function getAlias(): string
+    {
+        return 'plain';
+    }
 }

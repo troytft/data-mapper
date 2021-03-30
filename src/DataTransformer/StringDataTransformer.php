@@ -31,4 +31,9 @@ class StringDataTransformer extends BaseDataTransformer implements DataTransform
 
         return (string) $value;
     }
+
+    public static function getAlias(): string
+    {
+        return 'string';
+    }
 }

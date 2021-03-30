@@ -1,58 +1,15 @@
 services:
     _defaults:
+        autoconfigure: true
         autowire: true
         public: true
 
+    _instanceof:
+        Troytft\DataMapperBundle\DataTransformer\DataTransformerInterface:
+            tags: [!php/const Troytft\DataMapperBundle\DependencyInjection\Compiler\DataTransformerCompilerPass::TAG]
+
     Troytft\DataMapperBundle\Manager: ~
 
-    Troytft\DataMapperBundle\DataTransformer\PlainDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: plain }
-
-    Troytft\DataMapperBundle\DataTransformer\IntegerDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: integer }
-
-    Troytft\DataMapperBundle\DataTransformer\BooleanDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: boolean }
-
-    Troytft\DataMapperBundle\DataTransformer\StringDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: string }
-
-    Troytft\DataMapperBundle\DataTransformer\FloatDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: float }
-
-    Troytft\DataMapperBundle\DataTransformer\TimestampDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: timestamp }
-
-    Troytft\DataMapperBundle\DataTransformer\EntityDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: entity }
-
-    Troytft\DataMapperBundle\DataTransformer\ArrayDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: array }
-
-    Troytft\DataMapperBundle\DataTransformer\ArrayOfEntityDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: array_of_entity }
-
-    Troytft\DataMapperBundle\DataTransformer\ArrayOfIntegerDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: array_of_integer }
-
-    Troytft\DataMapperBundle\DataTransformer\DateTimeDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: datetime }
-
-    Troytft\DataMapperBundle\DataTransformer\DateDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: date }
-
-    Troytft\DataMapperBundle\DataTransformer\ArrayOfDateTimeDataTransformer:
-        tags:
-            - { name: data_mapper.transformer, alias: array_of_datetime }
+    Troytft\DataMapperBundle\DataTransformer\:
+        resource: '../../DataTransformer/*'
+    

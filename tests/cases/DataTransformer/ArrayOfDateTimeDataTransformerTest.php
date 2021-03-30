@@ -1,6 +1,5 @@
 <?php
 
-namespace Troytft\DataMapperBundle\Tests\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
 use Troytft\DataMapperBundle\DataTransformer\ArrayOfDateTimeDataTransformer;
