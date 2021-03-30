@@ -1,0 +1,45 @@
+name: Tests
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                symfony-versions: ['3.4', '4.4']
+                php-versions: ['7.1', '7.2']
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Setup PHP ${{ matrix.php-versions }}
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  coverage: none
+              env:
+                  COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+
+            - name: Cache Composer packages
+              id: composer-cache
+              uses: actions/cache@v2
+              with:
+                  path: vendor
+                  key: composer-vendor-cache-${{ matrix.php-versions }}-${{ hashFiles('**/composer.json') }}
+
+            - name: Install Symfony ${{ matrix.symfony-versions }}
+              if: steps.composer-cache.outputs.cache-hit != 'true'
+              run: composer require 'symfony/framework-bundle:^${{ matrix.symfony-versions }}' --no-suggest --no-interaction --no-progress --ignore-platform-reqs
+
+            - name: Run PHPUnit
+              run: vendor/bin/phpunit
+
+            - name: Run PHPStan
+              run: vendor/bin/phpstan analyse --no-progress
