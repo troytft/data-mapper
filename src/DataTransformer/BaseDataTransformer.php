@@ -33,7 +33,7 @@ abstract class BaseDataTransformer implements DataTransformerInterface
         return (array) $this->options;
     }
 
-    public function setOptions(array $value = [])
+    public function setOptions(array $value = []): void
     {
         if (isset($value[static::MODEL_OPTION])) {
             $this->model = $value[static::MODEL_OPTION];

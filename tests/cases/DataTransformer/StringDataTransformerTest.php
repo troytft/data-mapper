@@ -1,9 +1,6 @@
 <?php
 
-namespace Troytft\DataMapperBundle\Tests\DataTransformer;
-
 use Troytft\DataMapperBundle\DataTransformer\StringDataTransformer;
-
 use PHPUnit\Framework\TestCase;
 
 class StringDataTransformerTest extends TestCase

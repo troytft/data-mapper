@@ -23,4 +23,9 @@ class ArrayDataTransformer extends BaseArrayDataTransformer implements DataTrans
 
         return $value;
     }
+
+    public static function getAlias(): string
+    {
+        return 'array';
+    }
 }

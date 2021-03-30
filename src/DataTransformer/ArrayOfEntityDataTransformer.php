@@ -21,7 +21,7 @@ class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements D
         $this->em = $em;
     }
 
-    public function setOptions(array $options = [])
+    public function setOptions(array $options = []): void
     {
         parent::setOptions($options);
 
@@ -86,5 +86,10 @@ class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements D
         ksort($sortedResults);
 
         return $sortedResults;
+    }
+
+    public static function getAlias(): string
+    {
+        return 'array_of_entity';
     }
 }

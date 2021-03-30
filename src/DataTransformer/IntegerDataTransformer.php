@@ -18,4 +18,9 @@ class IntegerDataTransformer extends BaseDataTransformer implements DataTransfor
 
         return (int) $value;
     }
+
+    public static function getAlias(): string
+    {
+        return 'integer';
+    }
 }

@@ -18,7 +18,7 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
         $this->em = $em;
     }
 
-    public function setOptions(array $options = [])
+    public function setOptions(array $options = []): void
     {
         parent::setOptions($options);
 
@@ -53,5 +53,10 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
         }
 
         return $entity;
+    }
+
+    public static function getAlias(): string
+    {
+        return 'entity';
     }
 }

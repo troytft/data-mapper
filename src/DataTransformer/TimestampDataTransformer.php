@@ -8,4 +8,9 @@ class TimestampDataTransformer extends BaseDataTransformer implements DataTransf
     {
         return $value === null ? null : (new \DateTime('now'))->setTimestamp($value);
     }
+
+    public static function getAlias(): string
+    {
+        return 'timestamp';
+    }
 }

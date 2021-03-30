@@ -1,0 +1,24 @@
+framework:
+    validation:
+        enabled: true
+        enable_annotations: true
+    router:
+        resource: '@TestAppBundle'
+        type: annotation
+        strict_requirements: true
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        memory: true
+    orm:
+        entity_managers:
+            default:
+                auto_mapping: true
+services:
+    _defaults:
+        public: true
+        autowire: true
+        autoconfigure: true
+
+    TestApp\Controller\:
+        resource: '../../Controller/*'

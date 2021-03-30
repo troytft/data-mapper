@@ -18,4 +18,9 @@ class FloatDataTransformer extends BaseDataTransformer implements DataTransforme
 
         return (float) $value;
     }
+
+    public static function getAlias(): string
+    {
+        return 'float';
+    }
 }

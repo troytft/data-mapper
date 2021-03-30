@@ -6,6 +6,8 @@ use Doctrine\Common\Annotations\Reader as AnnotationReaderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Troytft\DataMapperBundle\DataTransformer\DataTransformerInterface;
 use Troytft\DataMapperBundle\Exception;
+use function array_key_exists;
+use function var_dump;
 
 class Manager
 {
@@ -80,18 +82,23 @@ class Manager
         $this->validationGroups = ['Default'];
     }
 
-    public function addDataTransformer(DataTransformerInterface $dataTransformer, string $alias)
+    public function addDataTransformer(DataTransformerInterface $dataTransformer)
     {
-        $this->dataTransformers[$alias] = $dataTransformer;
+        $this->dataTransformers[$dataTransformer::getAlias()] = $dataTransformer;
     }
 
     public function getDataTransformer(string $alias): DataTransformerInterface
     {
-        if (!array_key_exists($alias, $this->dataTransformers)) {
+        if (!$this->hasDataTransformer($alias)) {
             throw new Exception\UnknownDataTransformerException($alias);
         }
 
         return $this->dataTransformers[$alias];
+    }
+
+    public function hasDataTransformer(string $alias): bool
+    {
+        return array_key_exists($alias, $this->dataTransformers);
     }
 
     public function isIsClearMissing(): bool

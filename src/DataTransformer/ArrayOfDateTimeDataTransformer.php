@@ -25,7 +25,7 @@ class ArrayOfDateTimeDataTransformer extends BaseArrayDataTransformer implements
      */
     protected $isForceArray = false;
 
-    public function setOptions(array $options = [])
+    public function setOptions(array $options = []): void
     {
         parent::setOptions($options);
 
@@ -86,5 +86,10 @@ class ArrayOfDateTimeDataTransformer extends BaseArrayDataTransformer implements
     protected function getWrongIsoFormatMessage()
     {
         return self::WRONG_DATETIME_FORMAT_ERROR_MESSAGE;
+    }
+
+    public static function getAlias(): string
+    {
+        return 'array_of_datetime';
     }
 }

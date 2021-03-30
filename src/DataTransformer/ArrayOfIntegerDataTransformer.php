@@ -36,4 +36,9 @@ class ArrayOfIntegerDataTransformer extends BaseArrayDataTransformer implements 
 
         return $array;
     }
+
+    public static function getAlias(): string
+    {
+        return 'array_of_integer';
+    }
 }
