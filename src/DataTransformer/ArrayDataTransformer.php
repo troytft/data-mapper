@@ -2,6 +2,8 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
+use Troytft\DataMapperBundle\Exception\ValidationFieldException;
+
 class ArrayDataTransformer extends BaseArrayDataTransformer implements DataTransformerInterface
 {
     public function transform($value)
