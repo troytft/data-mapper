@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 symfony-versions: ['4.4']
-                php-versions: ['7.1', '7.2']
+                php-versions: ['7.2']
 
         steps:
             - name: Checkout repository
