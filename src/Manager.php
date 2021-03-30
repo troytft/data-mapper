@@ -15,7 +15,7 @@ class Manager
     private $annotationReader;
 
     /**
-     * @var array
+     * @var array<string, DataTransformerInterface>
      */
     private $dataTransformers = [];
 
