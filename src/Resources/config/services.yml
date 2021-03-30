@@ -30,7 +30,6 @@ services:
             - { name: data_mapper.transformer, alias: timestamp }
 
     Troytft\DataMapperBundle\DataTransformer\EntityDataTransformer:
-        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: data_mapper.transformer, alias: entity }
 
