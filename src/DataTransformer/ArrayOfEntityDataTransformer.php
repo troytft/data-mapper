@@ -2,6 +2,7 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use function array_search;
 use function ksort;
@@ -50,7 +51,7 @@ class ArrayOfEntityDataTransformer extends BaseArrayDataTransformer implements D
 
         $fieldType = $this->em->getClassMetadata($this->entityName)->getTypeOfField($this->fieldName);
         foreach ($value as $v) {
-            if ($fieldType === \Doctrine\DBAL\Types\Type::INTEGER && !is_numeric($v)) {
+            if ($fieldType === Types::INTEGER && !is_numeric($v)) {
                 throw new ValidationFieldException($this->getPropertyName(), 'Значения массива должны быть числами');
             } elseif (!is_numeric($v) && !is_string($v)) {
                 throw new ValidationFieldException($this->getPropertyName(), 'Значения массива должны быть числами или строками');
