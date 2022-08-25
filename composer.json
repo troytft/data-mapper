@@ -26,7 +26,7 @@
         "sort-packages": true
     },
     "require-dev": {
-        "nyholm/symfony-bundle-test": "^1.8",
+        "nyholm/symfony-bundle-test": "^2.0",
         "phpstan/phpstan": "^0.12",
         "phpunit/phpunit": "^9.5"
     }
