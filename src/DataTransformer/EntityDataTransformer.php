@@ -2,6 +2,7 @@
 
 namespace Troytft\DataMapperBundle\DataTransformer;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Troytft\DataMapperBundle\Exception\ValidationFieldException;
 use Troytft\DataMapperBundle\Exception\BaseException;
@@ -41,7 +42,7 @@ class EntityDataTransformer extends BaseDataTransformer implements DataTransform
         }
 
         $fieldType = $this->em->getClassMetadata($this->entityName)->getTypeOfField($this->fieldName);
-        if ($fieldType === \Doctrine\DBAL\Types\Type::INTEGER && !is_numeric($value)) {
+        if ($fieldType === Types::INTEGER && !is_numeric($value)) {
             throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть числом');
         } elseif (!is_numeric($value) && !is_string($value)) {
             throw new ValidationFieldException($this->getPropertyName(), 'Значение должно быть строкой или числом');
